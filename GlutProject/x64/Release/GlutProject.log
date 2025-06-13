@@ -1,0 +1,77 @@
+﻿  main.cpp
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(19,18): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(19,57): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(86,18): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(86,24): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(86,32): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(346,28): warning C4244: “参数”: 从“GLfloat”转换到“int”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(346,21): warning C4244: “参数”: 从“GLfloat”转换到“int”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(593,17): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(593,55): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(594,17): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(594,55): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(625,39): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(625,28): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(625,16): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(629,31): warning C4244: “参数”: 从“double”转换到“GLfloat”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(629,18): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(632,42): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(632,30): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(632,17): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(636,31): warning C4244: “参数”: 从“double”转换到“GLfloat”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(636,18): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(639,42): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(639,30): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(639,17): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(643,31): warning C4244: “参数”: 从“double”转换到“GLfloat”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(643,18): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(653,24): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(653,18): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(653,12): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(671,29): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(677,24): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(690,38): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(692,33): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(782,32): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(782,37): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(782,42): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(783,32): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(783,42): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(799,21): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(799,16): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(799,11): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(888,28): warning C4305: “=”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(892,28): warning C4305: “=”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(896,28): warning C4305: “=”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(960,30): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(960,35): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(960,40): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(960,72): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(960,77): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(960,82): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(975,30): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(975,35): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(975,40): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(976,30): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(976,35): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(976,40): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(977,31): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(977,36): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(977,41): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(978,36): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(978,41): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(1007,40): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(1007,82): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(1025,48): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(1041,48): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(1240,25): warning C4305: “参数”: 从“double”到“GLclampf”截断
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(1301,26): warning C4244: “=”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(1302,27): warning C4244: “=”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(1311,26): warning C4244: “=”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\STUDY\2025spring\cg\3\大作业\coding\GlutProject\main.cpp(1312,27): warning C4244: “=”: 从“int”转换到“GLfloat”，可能丢失数据
+  正在生成代码
+  5 of 901 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    4 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  GlutProject.vcxproj -> D:\STUDY\2025spring\cg\3\大作业\coding\x64\Release\GlutProject.exe
