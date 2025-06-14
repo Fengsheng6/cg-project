@@ -7,6 +7,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <cmath>
 using namespace std;
 
 #define GLUT_WHEEL_UP 3
@@ -201,6 +202,303 @@ struct Image
 		glBindTexture(GL_TEXTURE, 0);
 	}
 };
+
+struct Vector3 {
+    float x, y, z;
+    Vector3() : x(0), y(0), z(0) {}
+    Vector3(float x, float y, float z) : x(x), y(y), z(z) {}
+    
+    Vector3 operator+(const Vector3& other) const {
+        return Vector3(x + other.x, y + other.y, z + other.z);
+    }
+    
+    Vector3 operator-(const Vector3& other) const {
+        return Vector3(x - other.x, y - other.y, z - other.z);
+    }
+    
+    Vector3 operator*(float scalar) const {
+        return Vector3(x * scalar, y * scalar, z * scalar);
+    }
+    
+    float dot(const Vector3& other) const {
+        return x * other.x + y * other.y + z * other.z;
+    }
+    
+    float length() const {
+        return std::sqrt(x*x + y*y + z*z);
+    }
+    
+    Vector3 normalize() const {
+        float len = length();
+        if (len > 0.0001f) return *this * (1.0f / len);
+        return *this;
+    }
+};
+enum ColliderType { SPHERE, AABB, CAPSULE };
+// 碰撞体结构
+struct Collider {
+    ColliderType type;
+    Vector3 position;
+    Vector3 size; 
+    Vector3 rotation; 
+    
+    Collider(ColliderType t, Vector3 pos, Vector3 s) 
+        : type(t), position(pos), size(s), rotation(0,0,0) {}
+    
+    Collider(ColliderType t, Vector3 pos, Vector3 s, Vector3 rot) 
+        : type(t), position(pos), size(s), rotation(rot) {}
+};
+// 场景物体
+struct SceneObject {
+    Vector3 position;
+    Collider collider;
+	std::string type;
+    bool isStatic;
+    
+    SceneObject(Vector3 pos, Collider col, std::string type, bool isStatic = true)
+        : position(pos), collider(col), isStatic(isStatic), type(type) {}
+};
+
+// 全局碰撞体列表
+std::vector<SceneObject> sceneColliders;
+
+// 点与AABB碰撞检测
+bool PointInAABB(const Vector3& point, const Vector3& min, const Vector3& max) {
+    return (point.x >= min.x && point.x <= max.x) &&
+           (point.y >= min.y && point.y <= max.y) &&
+           (point.z >= min.z && point.z <= max.z);
+}
+
+// 球体与AABB碰撞检测
+bool SphereAABB(const Vector3& spherePos, float sphereRadius, 
+                const Vector3& aabbPos, const Vector3& aabbHalfSize) {
+    Vector3 closest = Vector3(
+        std::max(aabbPos.x - aabbHalfSize.x, std::min(spherePos.x, aabbPos.x + aabbHalfSize.x)),
+        std::max(aabbPos.y - aabbHalfSize.y, std::min(spherePos.y, aabbPos.y + aabbHalfSize.y)),
+        std::max(aabbPos.z - aabbHalfSize.z, std::min(spherePos.z, aabbPos.z + aabbHalfSize.z))
+    );
+    
+    float distance = (closest - spherePos).length();
+    return distance < sphereRadius;
+}
+
+// 球体与胶囊体碰撞检测
+bool SphereCapsule(const Vector3& spherePos, float sphereRadius,
+                   const Vector3& capsulePos, float capsuleRadius, float capsuleHeight) {
+    // 计算胶囊体两端点
+    Vector3 capsuleTop = capsulePos + Vector3(0, capsuleHeight/2, 0);
+    Vector3 capsuleBottom = capsulePos - Vector3(0, capsuleHeight/2, 0);
+    
+    // 计算球心到线段的最短距离
+    Vector3 line = capsuleTop - capsuleBottom;
+    Vector3 toSphere = spherePos - capsuleBottom;
+    float t = toSphere.dot(line) / line.dot(line);
+    t = std::max(0.0f, std::min(1.0f, t));
+    Vector3 closest = capsuleBottom + line * t;
+    
+    float distance = (closest - spherePos).length();
+    return distance < (sphereRadius + capsuleRadius);
+}
+
+// 碰撞检测主函数
+bool CheckCollision(const SceneObject& obj1, const SceneObject& obj2) {
+    const Collider& col1 = obj1.collider;
+    const Collider& col2 = obj2.collider;
+    Vector3 pos1 = obj1.position + col1.position;
+    Vector3 pos2 = obj2.position + col2.position;
+    
+    // 球体与AABB
+    if (col1.type == SPHERE && col2.type == AABB) {
+        return SphereAABB(pos1, col1.size.x, pos2, col2.size);
+    }
+    // AABB与球体
+    else if (col1.type == AABB && col2.type == SPHERE) {
+        return SphereAABB(pos2, col2.size.x, pos1, col1.size);
+    }
+    // 球体与胶囊体
+    else if (col1.type == SPHERE && col2.type == CAPSULE) {
+        return SphereCapsule(pos1, col1.size.x, pos2, col2.size.x, col2.size.y);
+    }
+    // 胶囊体与球体
+    else if (col1.type == CAPSULE && col2.type == SPHERE) {
+        return SphereCapsule(pos2, col2.size.x, pos1, col1.size.x, col1.size.y);
+    }
+    
+    return false;
+}
+
+// 检测玩家与场景的碰撞
+bool CheckPlayerCollision(const Vector3& playerPos, float playerRadius) {
+    // 创建玩家碰撞体（球体）
+    SceneObject player(playerPos, Collider(SPHERE, Vector3(0,0,0), Vector3(1,1,1)), "player", false);
+    player.collider.size = Vector3(playerRadius, 0, 0);
+    
+    for (const auto& obj : sceneColliders) {
+        if (CheckCollision(player, obj)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void InitColliders() {
+    // 清除现有碰撞体
+    sceneColliders.clear();
+    
+    // 添加房子的各个部分的碰撞体（AABB）
+    // 地板
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(0, 0, 0), Vector3(400, 5, 400)),
+        "house"
+    ));
+    
+    // 天花板
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(0, 400, 0), Vector3(400, 5, 400)),
+        "house"
+    ));
+    
+    // 柱子 (4根)
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(390, 200, 390), Vector3(10, 195, 10)),
+        "house"
+    ));
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(-390, 200, 390), Vector3(10, 195, 10)),
+        "house"
+    ));
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(390, 200, -390), Vector3(10, 195, 10)),
+        "house"
+    ));
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(-390, 200, -390), Vector3(10, 195, 10)),
+        "house"
+    ));
+    
+    // 墙壁
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(0, 320, 395), Vector3(380, 75, 5)),
+        "house"
+    ));
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(220, 125, 395), Vector3(160, 120, 5)),
+        "house"
+    ));
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(-220, 125, 395), Vector3(160, 120, 5)),
+        "house"
+    ));
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(0, 200, -395), Vector3(380, 195, 5)),
+        "house"
+    ));
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(395, 200, 0), Vector3(5, 195, 380)),
+        "house"
+    ));
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(-395, 200, 0), Vector3(5, 195, 380)),
+        "house"
+    ));
+    
+    
+    // 桌子
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(0, 100, 0), Vector3(100, 5, 100)),
+        "house"
+    ));
+    // 桌腿
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(70, 50, 70), Vector3(5, 50, 5)),
+        "house"
+    ));
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(-70, 50, 70), Vector3(5, 50, 5)),
+        "house"
+    ));
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(70, 50, -70), Vector3(5, 50, 5)),
+        "house"
+    ));
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(-70, 50, -70), Vector3(5, 50, 5)),
+        "house"
+    ));
+    
+    // 床
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(-320, 50, -280), Vector3(50, 5, 90)),
+        "house"
+    ));
+    // 床腿
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(-320+45, 50-25, -280+85), Vector3(5, 25, 5)),
+        "house"
+    ));
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(-320-45, 50-25, -280+85), Vector3(5, 25, 5)),
+        "house"
+    ));
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(-320+45, 50-25, -280-85), Vector3(5, 25, 5)),
+        "house"
+    ));
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, 0, 0), 
+        Collider(AABB, Vector3(-320-45, 50-25, -280-85), Vector3(5, 25, 5)),
+        "house"
+    ));
+
+    
+    // 添加树的碰撞体（胶囊体）
+    std::vector<Vector3> treePositions = {
+        Vector3(-1000, -50, 1300),
+        Vector3(-400, -50, 1200),
+        Vector3(200, -50, 900),
+        Vector3(800, -50, 1500),
+        Vector3(-1300, -50, 400),
+        Vector3(-1500, -50, -200),
+        Vector3(-1200, -50, -800),
+        Vector3(-1000, -50, -1300),
+        Vector3(-400, -50, -800),
+        Vector3(200, -50, -900),
+        Vector3(800, -50, -1200),
+        Vector3(1500, -50, 1000),
+        Vector3(1200, -50, 400),
+        Vector3(900, -50, -200),
+        Vector3(1200, -50, -800)
+    };
+    
+    for (const auto& pos : treePositions) {
+        sceneColliders.push_back(SceneObject(
+            pos, 
+            Collider(CAPSULE, Vector3(0, 690, 0), Vector3(66, 1260, 0)),
+            "tree"
+        ));
+    }
+}
 
 // 解析MTL材质文件
 bool loadMTL(const std::string& mtlPath, std::map<std::string, Material>& materials) {
@@ -433,6 +731,12 @@ void DrawCone(GLfloat cen_x, GLfloat cen_y, GLfloat cen_z, GLfloat d1, GLfloat d
 
 void DrawHouse(GLfloat x_loc, GLfloat y_loc, GLfloat z_loc)
 {
+	for (auto& obj : sceneColliders) {
+        if (obj.type == "house") { // 以"house"开头的标签
+            obj.position = Vector3(x_loc, y_loc, z_loc);
+        }
+    }
+
 	glPushMatrix();
     glTranslatef(x_loc, y_loc, z_loc);
 
@@ -584,6 +888,7 @@ void DrawHouse(GLfloat x_loc, GLfloat y_loc, GLfloat z_loc)
 	glPopMatrix();
 
 	glPopMatrix();
+
 }
 
 void DrawGround()
@@ -656,6 +961,7 @@ void DrawTree(GLfloat x_loc, GLfloat y_loc, GLfloat z_loc)
 
 	glColor3f(1, 1, 1);
 	glPopMatrix();
+
 }
 
 void DrawChair(GLfloat x_loc, GLfloat y_loc, GLfloat z_loc)
@@ -871,7 +1177,6 @@ void DrawEnvironment()
 	drawLamp(-80, 60, 430);
 
     drawLamp(250, 60, 430);
-
     
 }
 
@@ -1071,7 +1376,67 @@ void setLight() {
     // 启用深度测试确保正确渲染
     glEnable(GL_DEPTH_TEST);
 }
-
+void DrawColliderVisualization()
+{
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_LIGHTING);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glColor3f(1.0f, 0.0f, 0.0f); // 红色线框
+    
+    for (const auto& obj : sceneColliders) {
+        glPushMatrix();
+        Vector3 pos = obj.position + obj.collider.position;
+        glTranslatef(pos.x, pos.y, pos.z);
+        
+        switch (obj.collider.type) {
+            case SPHERE: {
+                glutWireSphere(obj.collider.size.x, 16, 16);
+                break;
+            }
+            case AABB: {
+                glScalef(obj.collider.size.x * 2, 
+                         obj.collider.size.y * 2, 
+                         obj.collider.size.z * 2);
+                glutWireCube(1.0f);
+                break;
+            }
+            case CAPSULE: {
+                // 绘制圆柱部分
+                GLUquadricObj* quadric = gluNewQuadric();
+                gluQuadricDrawStyle(quadric, GLU_LINE);
+                
+                glPushMatrix();
+                glTranslatef(0, -obj.collider.size.y, 0);
+                gluCylinder(quadric, 
+                           obj.collider.size.x, 
+                           obj.collider.size.x, 
+                           obj.collider.size.y * 2, 
+                           16, 1);
+                glPopMatrix();
+                
+                // 绘制顶部半球
+                glPushMatrix();
+                glTranslatef(0, obj.collider.size.y, 0);
+                glutWireSphere(obj.collider.size.x, 8, 8);
+                glPopMatrix();
+                
+                // 绘制底部半球
+                glPushMatrix();
+                glTranslatef(0, -obj.collider.size.y, 0);
+                glutWireSphere(obj.collider.size.x, 8, 8);
+                glPopMatrix();
+                
+                gluDeleteQuadric(quadric);
+                break;
+            }
+        }
+        glPopMatrix();
+    }
+    
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_TEXTURE_2D);
+}
 void DisplayFunc()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -1086,6 +1451,8 @@ void DisplayFunc()
 
     DrawEnvironment();
     DrawSky();
+	
+    DrawColliderVisualization();
 
 	// 绘制bangbu模型
     glPushMatrix();
@@ -1117,7 +1484,16 @@ void KeyboardFunc(unsigned char key, int x, int y)
     GLfloat frontZ = sin(radYaw) * cos(radPitch);  // 主方向Z分量
     GLfloat rightX = -sin(radYaw);                 // 右方向X分量
     GLfloat rightZ = cos(radYaw);                  // 右方向Z分量
-
+	Vector3 movement(0, 0, 0);
+	
+	Vector3 cameraPos(camera_x, camera_y, camera_z);
+    Vector3 lookatPos(lookat_x, lookat_y, lookat_z);
+	GLfloat last_camera_x = camera_x;
+	GLfloat last_camera_y = camera_y;
+	GLfloat last_camera_z = camera_z;
+	GLfloat last_look_at_x = lookat_x;
+	GLfloat last_look_at_y = lookat_y;
+	GLfloat last_look_at_z = lookat_z;
     // WASD移动控制（添加Y轴更新）
     if (key == 'w' || key == 'W') {   // 向前移动
         camera_x += frontX * step;
@@ -1126,6 +1502,9 @@ void KeyboardFunc(unsigned char key, int x, int y)
         lookat_x += frontX * step;
         lookat_y += frontY * step;  // 新增：观察点Y轴同步
         lookat_z += frontZ * step;
+		movement.x +=frontX * step;
+		movement.y +=frontY * step;
+		movement.z +=frontZ * step;
     }
     if (key == 's' || key == 'S') {   // 向后移动
         camera_x -= frontX * step;
@@ -1134,20 +1513,37 @@ void KeyboardFunc(unsigned char key, int x, int y)
         lookat_x -= frontX * step;
         lookat_y -= frontY * step;  // 新增：观察点Y轴同步
         lookat_z -= frontZ * step;
+		movement.x +=frontX * step;
+		movement.y +=frontY * step;
+		movement.z +=frontZ * step;
     }
     if (key == 'd' || key == 'D') {   // 向垂直主方向的左方向移动
         camera_x += rightX * step;
         camera_z += rightZ * step;
         lookat_x += rightX * step;
         lookat_z += rightZ * step;
+		movement.x +=frontX * step;
+		movement.y +=frontY * step;
+		movement.z +=frontZ * step;
     }
     if (key == 'a' || key == 'A') {   // 向垂直主方向的右方向移动
         camera_x -= rightX * step;
         camera_z -= rightZ * step;
         lookat_x -= rightX * step;
         lookat_z -= rightZ * step;
+		movement.x +=frontX * step;
+		movement.y +=frontY * step;
+		movement.z +=frontZ * step;
     }
-
+	Vector3 newPos = cameraPos + movement;
+	if (CheckPlayerCollision(newPos, 10)) {
+		camera_x = last_camera_x;
+		camera_y = last_camera_y;
+		camera_z = last_camera_z;
+		lookat_x = last_look_at_x;
+		lookat_y = last_look_at_y;
+		lookat_z = last_look_at_z;
+    }
     // ESC键处理：释放鼠标捕获或退出
     if (key == 27) {
         if (mouseCaptured) {
@@ -1226,6 +1622,8 @@ void SpecialKeyboardFunc(int key, int xx, int yy)
 		camera_x = oriv_x, camera_z = oriv_z;
 	}
 }
+
+
 
 void InitFunc()
 {
@@ -1325,6 +1723,7 @@ int main(int argc, char** argv)
 	glutCreateWindow("GlutProject");
 
 	InitFunc();
+	InitColliders();
     glutMouseFunc(mouseButton);          // 鼠标点击回调
     glutIdleFunc(idle);
     glutMainLoop();
