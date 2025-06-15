@@ -17,11 +17,15 @@ using namespace std;
 #define root_2 1.414
 #define root_3 1.732
 
+
 GLint winWidth = 1080, winHeight = 720; // Initial display window size
 GLfloat camera_x = -500, camera_y = 170.0, camera_z = 500; // viewing co-ordinate origin
 GLfloat lookat_x = -567.667, lookat_y = 160.0, lookat_z = 2203.86; // look-at point
 GLfloat Vx = 0.0, Vy = 1.0, Vz = 0.0; // view-up vector
-
+GLfloat sun_ambient[] = { 0.1f, 0.1f, 0.1f, 1.0f };
+GLfloat sun_diffuse[] = { 1.0f, 0.9f, 0.8f, 1.0f };  // 暖色调阳光
+GLfloat sun_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+GLfloat sun_direction[] = { -1.0f, -1.0f, -1.0f, 0.0f };  // 平行光方向
 GLfloat fov = 60.0f, aspect = (float)winWidth / (float)winHeight;
 GLfloat dnear = 10.0f, dfar = 15000.0f;
 
@@ -137,7 +141,36 @@ point shaft = { 1, 0, 0 }; // Autorotation shaft
 GLfloat planet_rotation = 0.0;
 GLboolean rotateFlag = FALSE;
 GLint Rotatestep = 0;
+int timeStateCounter = 0;
+const int TIME_CHANGE_INTERVAL = 15 * 1000; // 15秒（以毫秒为单位）
 
+// 添加自动切换时间的函数
+void AutoChangeTime(int value) {
+    timeStateCounter++;
+    if (timeStateCounter >= 3) timeStateCounter = 0;
+
+    // 根据计数器设置时间状态
+    switch (timeStateCounter) {
+    case 0: // 白天
+        time_state = 0;
+        planet_rotation = 90;
+        Rotatestep = 2;
+        break;
+    case 1: // 黄昏
+        time_state = 1;
+        planet_rotation = 0;
+        Rotatestep = 5;
+        break;
+    case 2: // 夜晚
+        time_state = 2;
+        planet_rotation = 180;
+        Rotatestep = -5;
+        break;
+    }
+
+    glutPostRedisplay();
+    glutTimerFunc(TIME_CHANGE_INTERVAL, AutoChangeTime, 0);
+}
 struct Animation {
     std::vector<Model> frames;  // 存储所有动画帧
     int currentFrame = 0;       // 当前帧索引
@@ -1504,6 +1537,39 @@ void DisplayFunc()
 
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(camera_x, camera_y, camera_z, lookat_x, lookat_y, lookat_z, Vx, Vy, Vz);
+
+    // 根据时间状态设置太阳光源
+    switch (time_state) {
+    case 0: // 白天
+        sun_direction[0] = -0.5f;  // 太阳较高
+        sun_direction[1] = -1.0f;
+        sun_diffuse[0] = 1.0f;  // 较强的白光
+        sun_diffuse[1] = 0.9f;
+        sun_diffuse[2] = 0.8f;
+        break;
+    case 1: // 黄昏
+        sun_direction[0] = -0.2f;  // 太阳较低
+        sun_direction[1] = -0.5f;
+        sun_diffuse[0] = 1.0f;  // 暖色调
+        sun_diffuse[1] = 0.6f;
+        sun_diffuse[2] = 0.4f;
+        break;
+    case 2: // 夜晚
+        sun_direction[0] = 0.1f;  // 月光
+        sun_direction[1] = -0.3f;
+        sun_diffuse[0] = 0.3f;  // 较暗的蓝光
+        sun_diffuse[1] = 0.3f;
+        sun_diffuse[2] = 0.5f;
+        break;
+    }
+
+    // 更新太阳光源
+    glLightfv(GL_LIGHT1, GL_POSITION, sun_direction);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, sun_diffuse);
+    glEnable(GL_LIGHT1);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -1672,24 +1738,33 @@ void SpecialKeyboardFunc(int key, int xx, int yy)
 		camera_x += step * sin(n / 200);
 		lookat_x += step * sin(n / 200);
 		break;
-	case GLUT_KEY_F1:
-		time_state = 0;
-		rotateFlag = FALSE;
-		planet_rotation = 90; // Adjust the value for the evening state
-		Rotatestep = 2; // Adjust the value for the evening state
-		break;
-	case GLUT_KEY_F2:
-		time_state = 1;
-		rotateFlag = FALSE;
-		planet_rotation = 0;
-		Rotatestep = 5; // A larger value
-		break;
-	case GLUT_KEY_F3:
-		time_state = 2;
-		rotateFlag = FALSE;
-		planet_rotation = 180;
-		Rotatestep = -5; // A larger value
-		break;
+    case GLUT_KEY_F1: // 白天
+        timeStateCounter = 0;
+        time_state = 0;
+        planet_rotation = 90;
+        Rotatestep = 2;
+        glutTimerFunc(TIME_CHANGE_INTERVAL, AutoChangeTime, 0);
+        break;
+    case GLUT_KEY_F2: // 黄昏
+        timeStateCounter = 1;
+        time_state = 1;
+        planet_rotation = 0;
+        Rotatestep = 5;
+        glutTimerFunc(TIME_CHANGE_INTERVAL, AutoChangeTime, 0);
+        break;
+    case GLUT_KEY_F3: // 夜晚
+        timeStateCounter = 2;
+        time_state = 2;
+        planet_rotation = 180;
+        Rotatestep = -5;
+        glutTimerFunc(TIME_CHANGE_INTERVAL, AutoChangeTime, 0);
+        break;
+    case GLUT_KEY_F4: // 升高太阳
+        sun_direction[1] -= 0.1f;
+        break;
+    case GLUT_KEY_F5: // 降低太阳
+        sun_direction[1] += 0.1f;
+        break;
 	}
 
 	if (!MoveRestriction(camera_x, camera_z))
@@ -1710,7 +1785,13 @@ void InitFunc()
 	glutSpecialFunc(SpecialKeyboardFunc);
 	glutMotionFunc(mouseMovement);  // 鼠标拖动时
 	glutPassiveMotionFunc(mouseMovement);  // 鼠标被动移动时
+    glLightfv(GL_LIGHT1, GL_AMBIENT, sun_ambient);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, sun_diffuse);
+    glLightfv(GL_LIGHT1, GL_SPECULAR, sun_specular);
+    glLightfv(GL_LIGHT1, GL_POSITION, sun_direction);
 
+    // 设置为平行光
+    glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 180.0f);
 	glClearColor(0.5, 0.5, 0.4, 1.0);
 	glLoadIdentity();
 	glMatrixMode(GL_PROJECTION);
@@ -1804,6 +1885,7 @@ int main(int argc, char** argv)
 
 	InitFunc();
 	InitColliders();
+    glutTimerFunc(TIME_CHANGE_INTERVAL, AutoChangeTime, 0);
     glutMouseFunc(mouseButton);          // 鼠标点击回调
     glutIdleFunc(idle);
     glutMainLoop();
