@@ -38,7 +38,7 @@ void idle(void);
 
 // initiate states and speeds
 float n = 485;	// view rotate degree
-GLfloat step = 10;	// move speed
+GLfloat step = 20;	// move speed
 
 // arrays to save different textures
 GLuint textures[10000];
@@ -504,6 +504,13 @@ void InitColliders() {
         Vector3(900, -50, -200),
         Vector3(1200, -50, -800)
     };
+
+	// 添加地面碰撞体
+    sceneColliders.push_back(SceneObject(
+        Vector3(0, -5, 0),  // 位置略低于原点
+        Collider(AABB, Vector3(0, 0, 0), Vector3(2000, 10, 2000)),  // 大型平面作为地面
+        "ground"
+    ));
     
     for (const auto& pos : treePositions) {
         sceneColliders.push_back(SceneObject(
@@ -1512,7 +1519,7 @@ void DisplayFunc()
 
 	if (!wolfAnimation.frames.empty()) {
     glPushMatrix();
-    glTranslatef(-500.0f, 0.0f, -800.0f);
+    glTranslatef(500.0f, 0.0f, 800.0f);
     glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
     drawModel(wolfAnimation.frames[wolfAnimation.currentFrame]);
     glPopMatrix();
