@@ -8,6 +8,8 @@
 #include <map>
 #include <algorithm>
 #include <cmath>
+#include <iomanip>
+
 using namespace std;
 
 #define GLUT_WHEEL_UP 3
@@ -135,6 +137,18 @@ point shaft = { 1, 0, 0 }; // Autorotation shaft
 GLfloat planet_rotation = 0.0;
 GLboolean rotateFlag = FALSE;
 GLint Rotatestep = 0;
+
+struct Animation {
+    std::vector<Model> frames;  // 存储所有动画帧
+    int currentFrame = 0;       // 当前帧索引
+    float frameRate = 5.0f;     // 帧率(每秒5帧)
+    float frameTime = 0.0f;     // 当前帧时间
+    bool isPlaying = false;     // 是否正在播放
+    bool loop = true;           // 是否循环播放
+};
+
+Animation wolfAnimation;
+
 
 struct Image
 {
@@ -500,6 +514,7 @@ void InitColliders() {
     }
 }
 
+
 // 解析MTL材质文件
 bool loadMTL(const std::string& mtlPath, std::map<std::string, Material>& materials) {
     std::ifstream file(mtlPath);
@@ -630,6 +645,97 @@ bool loadOBJ(const std::string& path, Model& model) {
 
     return true;
 }
+
+bool loadAnimation(const std::string& basePath, const std::string& baseName,
+                 int frameCount, Animation& animation) {
+    animation.frames.clear();
+    
+    for (int i = 1; i <= frameCount; i++) {
+        // 使用stringstream替代std::format
+        std::ostringstream oss;
+        oss << basePath << baseName << "_" 
+            << std::setw(4) << std::setfill('0') << i << ".obj";
+        std::string filename = oss.str();
+        
+        Model frame;
+        if (!loadOBJ(filename, frame)) {
+            std::cerr << "加载动画帧失败: " << filename << std::endl;
+            return false;
+        }
+        animation.frames.push_back(frame);
+    }
+    
+    std::cout << "成功加载动画，共 " << animation.frames.size() << " 帧" << std::endl;
+    return true;
+}
+
+void UpdateAnimation(float deltaTime) {
+    if (!wolfAnimation.isPlaying || wolfAnimation.frames.empty()) return;
+    
+    wolfAnimation.frameTime += deltaTime;
+    float frameDuration = 1.0f / wolfAnimation.frameRate;
+    
+    if (wolfAnimation.frameTime >= frameDuration) {
+        wolfAnimation.frameTime = 0.0f;
+        wolfAnimation.currentFrame++;
+        
+        if (wolfAnimation.currentFrame >= wolfAnimation.frames.size()) {
+            if (wolfAnimation.loop) {
+                wolfAnimation.currentFrame = 0;
+            } else {
+                wolfAnimation.currentFrame = wolfAnimation.frames.size() - 1;
+                wolfAnimation.isPlaying = false;
+            }
+        }
+    }
+}
+
+void SaveScreenshot(const std::string& filename) {
+    int width = glutGet(GLUT_WINDOW_WIDTH);
+    int height = glutGet(GLUT_WINDOW_HEIGHT);
+    
+    // 分配内存存储像素数据
+    std::vector<unsigned char> pixels(width * height * 3);
+    
+    // 读取屏幕像素
+    glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, &pixels[0]);
+    
+    // 翻转图像(Y轴)
+    for (int y = 0; y < height / 2; y++) {
+        for (int x = 0; x < width; x++) {
+            for (int c = 0; c < 3; c++) {
+                std::swap(pixels[(y * width + x) * 3 + c], 
+                         pixels[((height - 1 - y) * width + x) * 3 + c]);
+            }
+        }
+    }
+    
+    // 保存为BMP文件
+    FILE* file = fopen(filename.c_str(), "wb");
+    if (!file) return;
+    
+    // BMP文件头
+    unsigned char header[54] = {
+        'B','M', 0,0,0,0, 0,0, 0,0, 54,0,0,0,
+        40,0,0,0, 0,0,0,0, 0,0,0,0, 1,0, 24,0
+    };
+    
+    int dataSize = width * height * 3;
+    int fileSize = dataSize + 54;
+    
+    *(int*)&header[2] = fileSize;
+    *(int*)&header[18] = width;
+    *(int*)&header[22] = height;
+    
+    fwrite(header, 1, 54, file);
+    fwrite(&pixels[0], 1, dataSize, file);
+    fclose(file);
+    
+    std::cout << "截图已保存为: " << filename << std::endl;
+}
+
+
+
 
 // 添加鼠标移动回调函数
 void mouseMovement(int x, int y) {
@@ -1376,69 +1482,20 @@ void setLight() {
     // 启用深度测试确保正确渲染
     glEnable(GL_DEPTH_TEST);
 }
-void DrawColliderVisualization()
-{
-    glDisable(GL_TEXTURE_2D);
-    glDisable(GL_LIGHTING);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    glColor3f(1.0f, 0.0f, 0.0f); // 红色线框
-    
-    for (const auto& obj : sceneColliders) {
-        glPushMatrix();
-        Vector3 pos = obj.position + obj.collider.position;
-        glTranslatef(pos.x, pos.y, pos.z);
-        
-        switch (obj.collider.type) {
-            case SPHERE: {
-                glutWireSphere(obj.collider.size.x, 16, 16);
-                break;
-            }
-            case AABB: {
-                glScalef(obj.collider.size.x * 2, 
-                         obj.collider.size.y * 2, 
-                         obj.collider.size.z * 2);
-                glutWireCube(1.0f);
-                break;
-            }
-            case CAPSULE: {
-                // 绘制圆柱部分
-                GLUquadricObj* quadric = gluNewQuadric();
-                gluQuadricDrawStyle(quadric, GLU_LINE);
-                
-                glPushMatrix();
-                glTranslatef(0, -obj.collider.size.y, 0);
-                gluCylinder(quadric, 
-                           obj.collider.size.x, 
-                           obj.collider.size.x, 
-                           obj.collider.size.y * 2, 
-                           16, 1);
-                glPopMatrix();
-                
-                // 绘制顶部半球
-                glPushMatrix();
-                glTranslatef(0, obj.collider.size.y, 0);
-                glutWireSphere(obj.collider.size.x, 8, 8);
-                glPopMatrix();
-                
-                // 绘制底部半球
-                glPushMatrix();
-                glTranslatef(0, -obj.collider.size.y, 0);
-                glutWireSphere(obj.collider.size.x, 8, 8);
-                glPopMatrix();
-                
-                gluDeleteQuadric(quadric);
-                break;
-            }
-        }
-        glPopMatrix();
-    }
-    
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_TEXTURE_2D);
-}
+
+
+int lastTime = 0;
+
 void DisplayFunc()
 {
+    int currentTime = glutGet(GLUT_ELAPSED_TIME);
+    float deltaTime = (currentTime - lastTime) / 1000.0f;
+    lastTime = currentTime;
+    
+    UpdateAnimation(deltaTime);
+
+
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glMatrixMode(GL_MODELVIEW);
@@ -1452,7 +1509,14 @@ void DisplayFunc()
     DrawEnvironment();
     DrawSky();
 	
-    DrawColliderVisualization();
+
+	if (!wolfAnimation.frames.empty()) {
+    glPushMatrix();
+    glTranslatef(-500.0f, 0.0f, -800.0f);
+    glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
+    drawModel(wolfAnimation.frames[wolfAnimation.currentFrame]);
+    glPopMatrix();
+}
 
 	// 绘制bangbu模型
     glPushMatrix();
@@ -1543,6 +1607,11 @@ void KeyboardFunc(unsigned char key, int x, int y)
 		lookat_x = last_look_at_x;
 		lookat_y = last_look_at_y;
 		lookat_z = last_look_at_z;
+    }
+    if (key == 'c' || key == 'C') {
+        static int screenshotCount = 0;
+        std::string filename = "screenshot_" + std::to_string(screenshotCount++) + ".bmp";
+        SaveScreenshot(filename);
     }
     // ESC键处理：释放鼠标捕获或退出
     if (key == 27) {
@@ -1639,6 +1708,10 @@ void InitFunc()
 	glLoadIdentity();
 	glMatrixMode(GL_PROJECTION);
 	gluPerspective(fov, aspect, dnear, dfar);
+
+    loadAnimation("models/", "Wolf", 16, wolfAnimation);
+    wolfAnimation.isPlaying = true;  // 自动播放
+    wolfAnimation.frameRate = 5.0f;  // 5帧/秒
 
 	glEnable(GL_LIGHTING);	// enable lighting
 	glDepthFunc(GL_LEQUAL);

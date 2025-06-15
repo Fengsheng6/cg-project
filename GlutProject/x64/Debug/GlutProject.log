@@ -1,72 +1,73 @@
 ﻿  main.cpp
-D:\Cpp\cg_project\GlutProject\main.cpp(20,18): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(20,57): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(87,17): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(87,24): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(87,31): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(644,28): warning C4244: “参数”: 从“GLfloat”转换到“int”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(644,21): warning C4244: “参数”: 从“GLfloat”转换到“int”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(898,17): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(898,55): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(899,17): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(899,55): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(930,39): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(930,28): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(930,16): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(934,31): warning C4244: “参数”: 从“double”转换到“GLfloat”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(934,18): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(937,42): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(937,30): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(937,17): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(941,31): warning C4244: “参数”: 从“double”转换到“GLfloat”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(941,18): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(944,42): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(944,30): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(944,17): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(948,31): warning C4244: “参数”: 从“double”转换到“GLfloat”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(948,18): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(958,24): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(958,18): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(958,12): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(977,29): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(983,24): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(996,38): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(998,33): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(1088,32): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1088,37): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1088,42): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1089,32): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1089,42): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1105,21): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1105,16): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1105,11): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1193,28): warning C4305: “=”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1197,28): warning C4305: “=”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1201,28): warning C4305: “=”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1265,30): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1265,35): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1265,40): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1265,72): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1265,77): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1265,82): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1280,30): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1280,35): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1280,40): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1281,30): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1281,35): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1281,40): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1282,31): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1282,36): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1282,41): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1283,36): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1283,41): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1312,40): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1312,82): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1330,48): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1346,48): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1638,25): warning C4305: “参数”: 从“double”到“GLclampf”截断
-D:\Cpp\cg_project\GlutProject\main.cpp(1699,26): warning C4244: “=”: 从“int”转换到“GLfloat”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(1700,27): warning C4244: “=”: 从“int”转换到“GLfloat”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(1709,26): warning C4244: “=”: 从“int”转换到“GLfloat”，可能丢失数据
-D:\Cpp\cg_project\GlutProject\main.cpp(1710,27): warning C4244: “=”: 从“int”转换到“GLfloat”，可能丢失数据
-  GlutProject.vcxproj -> D:\Cpp\cg_project\x64\Debug\GlutProject.exe
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(22,18): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(22,57): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(89,17): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(89,24): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(89,31): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(686,74): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(750,28): warning C4244: “参数”: 从“GLfloat”转换到“int”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(750,21): warning C4244: “参数”: 从“GLfloat”转换到“int”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1004,17): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1004,55): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1005,17): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1005,55): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1036,39): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1036,28): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1036,16): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1040,31): warning C4244: “参数”: 从“double”转换到“GLfloat”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1040,18): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1043,42): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1043,30): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1043,17): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1047,31): warning C4244: “参数”: 从“double”转换到“GLfloat”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1047,18): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1050,42): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1050,30): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1050,17): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1054,31): warning C4244: “参数”: 从“double”转换到“GLfloat”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1054,18): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1064,24): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1064,18): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1064,12): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1083,29): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1089,24): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1102,38): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1104,33): warning C4244: “参数”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1194,32): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1194,37): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1194,42): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1195,32): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1195,42): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1211,21): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1211,16): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1211,11): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1299,28): warning C4305: “=”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1303,28): warning C4305: “=”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1307,28): warning C4305: “=”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1371,30): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1371,35): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1371,40): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1371,72): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1371,77): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1371,82): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1386,30): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1386,35): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1386,40): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1387,30): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1387,35): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1387,40): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1388,31): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1388,36): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1388,41): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1389,36): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1389,41): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1418,40): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1418,82): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1436,48): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1452,48): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1707,25): warning C4305: “参数”: 从“double”到“GLclampf”截断
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1772,26): warning C4244: “=”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1773,27): warning C4244: “=”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1782,26): warning C4244: “=”: 从“int”转换到“GLfloat”，可能丢失数据
+D:\Cpp\cg_project - 副本\GlutProject\main.cpp(1783,27): warning C4244: “=”: 从“int”转换到“GLfloat”，可能丢失数据
+  GlutProject.vcxproj -> D:\Cpp\cg_project - 副本\x64\Debug\GlutProject.exe
